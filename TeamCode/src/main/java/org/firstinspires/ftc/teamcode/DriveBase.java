@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import static java.lang.Math.PI;
@@ -23,6 +24,9 @@ public class DriveBase
         flMotor = (DcMotor)hardwareMap.get("flMotor");
         brMotor = (DcMotor)hardwareMap.get("brMotor");
         blMotor = (DcMotor)hardwareMap.get("blMotor");
+
+        frMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        brMotor.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     public void drive(double speed, double angle, double rot)
