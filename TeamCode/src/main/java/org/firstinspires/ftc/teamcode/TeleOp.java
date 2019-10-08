@@ -81,7 +81,9 @@ public class TeleOp extends OpMode
     {
         driveBase.drive(driveOp.getPower(), driveOp.getAngle(), driveOp.getRot());
 
-        // Show the elapsed game time and wheel power.
+
+        telemetry.addData("Target Angle: ", driveOp.getAngle());
+        telemetry.addData("Target Rotation: ", driveOp.getRot());
         telemetry.addData("Status", "Run Time: " + runtime.toString());
     }
 

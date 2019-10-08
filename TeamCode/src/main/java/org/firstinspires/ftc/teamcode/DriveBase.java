@@ -25,7 +25,8 @@ public class DriveBase
         brMotor = (DcMotor)hardwareMap.get("brMotor");
         blMotor = (DcMotor)hardwareMap.get("blMotor");
 
-        frMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        flMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        blMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         brMotor.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
@@ -36,15 +37,25 @@ public class DriveBase
 
         double maxPower = speed * (abs(flbr) > abs(frbl) ? abs(flbr) : abs(frbl)) + abs(rot);
 
-        frMotor.setPower((frbl * speed - rot) / maxPower);
-        flMotor.setPower((flbr * speed + rot) / maxPower);
-        blMotor.setPower((frbl * speed + rot) / maxPower);
-        brMotor.setPower((flbr * speed - rot) / maxPower);
+        if (maxPower > 1)
+        {
+            frMotor.setPower((frbl * speed - rot) / maxPower);
+            flMotor.setPower((flbr * speed + rot) / maxPower);
+            blMotor.setPower((frbl * speed + rot) / maxPower);
+            brMotor.setPower((flbr * speed - rot) / maxPower);
+        }
+        else
+        {
+            frMotor.setPower(frbl * speed - rot);
+            flMotor.setPower(flbr * speed + rot);
+            blMotor.setPower(frbl * speed + rot);
+            brMotor.setPower(flbr * speed - rot);
+        }
     }
 
     private double flbrPower(double angle)
     {
-        return wCoef * sin(angle - 23 * PI / 36);
+        return wCoef * sin(angle + 23 * PI / 36);
     }
 
     private double frblPower(double angle)
