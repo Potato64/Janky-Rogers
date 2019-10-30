@@ -35,11 +35,7 @@ public class DriveBase
         double flbr = flbrPower(angle);
         double frbl = frblPower(angle);
 
-        double maxMovePower = abs(flbr) > abs(frbl) ? abs(flbr) : abs(frbl);
-        flbr /= maxMovePower;
-        frbl /= maxMovePower;
-
-        double maxPower = speed * (maxMovePower + abs(rot));
+        double maxPower = speed * (abs(flbr) > abs(frbl) ? abs(flbr) : abs(frbl)) + abs(rot);
 
         if (maxPower > 1)
         {
