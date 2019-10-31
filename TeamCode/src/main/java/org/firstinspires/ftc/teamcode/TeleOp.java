@@ -30,7 +30,9 @@
 package org.firstinspires.ftc.teamcode;
 
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOp", group="Iterative Opmode")
@@ -42,6 +44,10 @@ public class TeleOp extends OpMode
     private DriveOp driveOp;
     private DriveBase driveBase;
 
+    private DcMotor arm;
+
+    private BNO055IMU imu;
+
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -50,6 +56,10 @@ public class TeleOp extends OpMode
     {
         driveOp = new DriveOp(gamepad1);
         driveBase = new DriveBase(hardwareMap);
+
+        arm = hardwareMap.get(DcMotor.class, "arm");
+
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
