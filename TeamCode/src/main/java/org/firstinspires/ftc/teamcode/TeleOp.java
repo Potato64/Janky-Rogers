@@ -46,6 +46,8 @@ public class TeleOp extends OpMode
 
     private DcMotor arm;
 
+    private DcMotor claw;
+
     private BNO055IMU imu;
 
     /*
@@ -57,7 +59,11 @@ public class TeleOp extends OpMode
         driveOp = new DriveOp(gamepad1);
         driveBase = new DriveBase(hardwareMap);
 
+
+
         arm = hardwareMap.get(DcMotor.class, "arm");
+
+        claw = hardwareMap.get(DcMotor.class, "claw");
 
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 
@@ -90,6 +96,12 @@ public class TeleOp extends OpMode
     public void loop()
     {
         driveBase.drive(driveOp.getPower(), driveOp.getAngle(), driveOp.getRot());
+
+        arm.setPower(0.7 * gamepad2.left_stick_y);
+
+        claw.setPower((-gamepad2.right_stick_y));
+
+
 
 
         telemetry.addData("Target Angle: ", driveOp.getAngle());

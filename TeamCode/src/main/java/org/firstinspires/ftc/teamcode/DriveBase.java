@@ -11,10 +11,10 @@ import static java.lang.Math.sin;
 
 public class DriveBase
 {
-    DcMotor frMotor;
-    DcMotor flMotor;
-    DcMotor brMotor;
-    DcMotor blMotor;
+    public DcMotor frMotor;
+    public DcMotor flMotor;
+    public DcMotor brMotor;
+    public DcMotor blMotor;
 
     private static final double wCoef = 1/(sin(23 * PI/36));
 
@@ -25,7 +25,7 @@ public class DriveBase
         brMotor = (DcMotor)hardwareMap.get("brMotor");
         blMotor = (DcMotor)hardwareMap.get("blMotor");
 
-        flMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        frMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         blMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         brMotor.setDirection(DcMotorSimple.Direction.REVERSE);
     }
@@ -43,17 +43,17 @@ public class DriveBase
 
         if (maxPower > 1)
         {
-            frMotor.setPower((frbl * speed - rot) / maxPower);
-            flMotor.setPower((flbr * speed + rot) / maxPower);
-            blMotor.setPower((frbl * speed + rot) / maxPower);
-            brMotor.setPower((flbr * speed - rot) / maxPower);
+            frMotor.setPower((frbl * speed + rot) / maxPower);
+            flMotor.setPower((flbr * speed - rot) / maxPower);
+            blMotor.setPower((frbl * speed - rot) / maxPower);
+            brMotor.setPower((flbr * speed + rot) / maxPower);
         }
         else
         {
-            frMotor.setPower(frbl * speed - rot);
-            flMotor.setPower(flbr * speed + rot);
-            blMotor.setPower(frbl * speed + rot);
-            brMotor.setPower(flbr * speed - rot);
+            frMotor.setPower(frbl * speed + rot);
+            flMotor.setPower(flbr * speed - rot);
+            blMotor.setPower(frbl * speed - rot);
+            brMotor.setPower(flbr * speed + rot);
         }
     }
 
