@@ -1,8 +1,13 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 
 import static java.lang.Math.PI;
 import static java.lang.Math.abs;
@@ -11,10 +16,19 @@ import static java.lang.Math.sin;
 
 public class DriveBase
 {
-    public DcMotor frMotor;
-    public DcMotor flMotor;
-    public DcMotor brMotor;
-    public DcMotor blMotor;
+    private DcMotor frMotor;
+    private DcMotor flMotor;
+    private DcMotor brMotor;
+    private DcMotor blMotor;
+
+    private BNO055IMU imu;
+
+    private boolean headless;
+    private boolean imuStabililzed;
+    private boolean imuStabilizedTracker;
+
+    private double targetAngle;
+    private final double rotStabCoef = 0.1;
 
     private static final double wCoef = 1/(sin(23 * PI/36));
 
@@ -25,13 +39,35 @@ public class DriveBase
         brMotor = (DcMotor)hardwareMap.get("brMotor");
         blMotor = (DcMotor)hardwareMap.get("blMotor");
 
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+
         frMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         blMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         brMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        headless = true;
+        imuStabililzed = true;
+
+        targetAngle = 0;
     }
 
     public void drive(double speed, double angle, double rot)
     {
+        double currentAngle = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.RADIANS).firstAngle;
+        if (headless)
+        {
+            angle -= currentAngle;
+        }
+        if (imuStabililzed)
+        {
+            if (!imuStabilizedTracker)
+            {
+                targetAngle = currentAngle;
+                imuStabilizedTracker = true;
+            }
+            rot += rotStabCoef * (currentAngle - targetAngle);
+        }
+
         double flbr = flbrPower(angle);
         double frbl = frblPower(angle);
 

@@ -18,4 +18,14 @@ public class Sensors
     {
 
     }
+
+    public double getFrontDistance()
+    {
+        return 0;
+    }
+
+    public boolean getClawAlignment()
+    {
+        return false;
+    }
 }
