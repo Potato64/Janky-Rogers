@@ -66,7 +66,7 @@ public class AutoOpBL extends LinearOpMode
 
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 
-        sensors = new Sensors();
+        sensors = new Sensors(hardwareMap);
 
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
@@ -103,11 +103,28 @@ public class AutoOpBL extends LinearOpMode
 
         getSkystone();
 
-        driveBase.drive(1, PI/2, 0);
+        placeStone();
+
+        getSkystone();
+
+        placeStone();
+
+        driveBase.drive(0.5, -PI/2, 0);
+
+        while(opModeIsActive() && sensors.getBottomC() < 50);
     }
 
     private void getSkystone()
     {
+
+        driveBase.drive(1, -PI/2, 0);
+
+        sleep(5000);
+    }
+
+    private void pickSkystone()
+    {
+
         while (opModeIsActive())
         {
             driveBase.drive(0.5, -PI/2 - (sensors.getFrontDistance() - 300), 0);
@@ -137,6 +154,17 @@ public class AutoOpBL extends LinearOpMode
         while (opModeIsActive() && !sensors.getClawAlignment());
 
         claw.setPower(-0.3);
+
+        sleep(500);
+
+        claw.setPower(0);
+    }
+
+    private void placeStone()
+    {
+        driveBase.drive(1, PI/2, 0);
+
+        sleep(5000);
     }
 
     /**

@@ -1,27 +1,37 @@
 package org.firstinspires.ftc.teamcode;
 
-import org.firstinspires.ftc.robotcontroller.external.samples.SensorREVColorDistance;
+import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class Sensors
 {
-    SensorREVColorDistance bottomColor1;
-    SensorREVColorDistance bottomColor2;
+    ColorSensor bottomC;
 
-    SensorREVColorDistance sideL;
-    SensorREVColorDistance sideR;
+    ColorSensor sideLC;
+    ColorSensor sideRC;
+    DistanceSensor sideLD;
+    DistanceSensor sideRD;
 
-    SensorREVColorDistance frontDist1;
-    SensorREVColorDistance frontDist2;
-    SensorREVColorDistance frontDist3;
+    DistanceSensor frontD;
 
-    public Sensors()
+    public Sensors(HardwareMap hardwareMap)
     {
+        frontD = hardwareMap.get(DistanceSensor.class, "frontDist");
+    }
 
+    public double getBottomC ()
+    {
+        double red = bottomC.red();
+        double blue = bottomC.blue();
+        return (red > blue) ? red : blue;
     }
 
     public double getFrontDistance()
     {
-        return 0;
+        return frontD.getDistance(DistanceUnit.INCH);
     }
 
     public boolean getClawAlignment()
