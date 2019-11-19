@@ -8,18 +8,18 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class Sensors
 {
-    ColorSensor bottomC;
+    private ColorSensor bottomC;
 
-    ColorSensor sideLC;
-    ColorSensor sideRC;
-    DistanceSensor sideLD;
-    DistanceSensor sideRD;
+    private ColorSensor sideLC;
+    private ColorSensor sideRC;
+    private DistanceSensor sideLD;
+    private DistanceSensor sideRD;
 
-    DistanceSensor frontD;
+    private DistanceSensor frontD;
 
     public Sensors(HardwareMap hardwareMap)
     {
-        frontD = hardwareMap.get(DistanceSensor.class, "frontDist");
+        frontD = hardwareMap.get(DistanceSensor.class, "frontDistD");
     }
 
     public double getBottomC ()
@@ -32,6 +32,11 @@ public class Sensors
     public double getFrontDistance()
     {
         return frontD.getDistance(DistanceUnit.INCH);
+    }
+
+    public boolean getFrontProximity()
+    {
+        return !Double.isNaN(frontD.getDistance(DistanceUnit.CM));
     }
 
     public boolean getClawAlignment()

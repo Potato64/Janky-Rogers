@@ -1,28 +1,24 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
-
-import java.util.List;
 
 import static java.lang.Math.PI;
 
-@Autonomous
-public class AutoOpBL extends LinearOpMode
+public class AutoOpBB extends LinearOpMode
 {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
 
     private DriveOp driveOp;
     private DriveBase driveBase;
+    private Hooks hooks;
 
     private DcMotor arm;
     private DcMotor claw;
@@ -97,75 +93,23 @@ public class AutoOpBL extends LinearOpMode
         waitForStart();
         runtime.reset();
 
-        driveBase.drive(0.5, 0, 0);
-
-        while (opModeIsActive() && sensors.getFrontDistance() > 300);
-
-        getSkystone();
-
-        placeStone();
-
-        getSkystone();
-
-        placeStone();
-
-        driveBase.drive(0.5, -PI/2, 0);
-
-        while(opModeIsActive() && sensors.getBottomC() < 50);
-    }
-
-    private void getSkystone()
-    {
-        driveBase.drive(1, -PI/2, 0);
-
-        sleep(5000);
-
-        pickSkystone();
-    }
-
-    private void pickSkystone()
-    {
-
-        while (opModeIsActive())
-        {
-            driveBase.drive(0.5, -PI/2 - (sensors.getFrontDistance() - 3), 0);
-
-            if (tfod != null) {
-                // getUpdatedRecognitions() will return null if no new information is available since
-                // the last time that call was made.
-                List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-                if (updatedRecognitions != null)
-                {
-
-                    // step through the list of recognitions and display boundary info.
-                    int i = 0;
-                    for (Recognition recognition : updatedRecognitions) {
-                        if (recognition.getRight() == 0.5)
-                        {
-                            break;
-                        }
-                    }
-                    telemetry.update();
-                }
-            }
-        }
-
-        driveBase.drive(0.2, 0, 0);
-
-        while (opModeIsActive() && !sensors.getClawAlignment());
-
-        claw.setPower(-0.3);
+        driveBase.drive(1, PI/4, 0);
 
         sleep(500);
 
-        claw.setPower(0);
-    }
+        driveBase.drive(1, 0, 0);
 
-    private void placeStone()
-    {
-        driveBase.drive(1, PI/2, 0);
+        while(opModeIsActive() && !sensors.getFrontProximity());
+
+        hooks.extend();
+
+        driveBase.drive(-1, 0, 0);
 
         sleep(5000);
+
+        driveBase.drive(1, -PI/2, 0);
+
+        while (opModeIsActive() && sensors.getBottomC() < 100);
     }
 
     /**
@@ -197,5 +141,4 @@ public class AutoOpBL extends LinearOpMode
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
     }
-
 }
