@@ -43,8 +43,7 @@ public class TeleOp extends OpMode
 
     private DriveOp driveOp;
     private DriveBase driveBase;
-
-    private DcMotor arm;
+    private  Lift lift;
 
     private DcMotor claw;
 
@@ -58,10 +57,7 @@ public class TeleOp extends OpMode
     {
         driveOp = new DriveOp(gamepad1);
         driveBase = new DriveBase(hardwareMap);
-
-
-
-        arm = hardwareMap.get(DcMotor.class, "arm");
+        lift = new Lift(hardwareMap);
 
         claw = hardwareMap.get(DcMotor.class, "claw");
 
@@ -97,12 +93,9 @@ public class TeleOp extends OpMode
     {
         driveBase.drive(driveOp.getPower(), driveOp.getAngle(), driveOp.getRot());
 
-        arm.setPower(0.7 * gamepad2.left_stick_y);
+        lift.setPower(gamepad2.left_stick_y);
 
-        claw.setPower((-gamepad2.right_stick_y));
-
-
-
+        claw.setPower(-gamepad2.right_stick_y);
 
         telemetry.addData("Target Angle: ", driveOp.getAngle());
         telemetry.addData("Target Rotation: ", driveOp.getRot());
