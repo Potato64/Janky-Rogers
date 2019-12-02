@@ -16,10 +16,12 @@ public class Sensors
     private DistanceSensor sideRD;
 
     private DistanceSensor frontD;
+    private ColorSensor frontC;
 
     public Sensors(HardwareMap hardwareMap)
     {
-        frontD = hardwareMap.get(DistanceSensor.class, "frontDistD");
+        frontD = hardwareMap.get(DistanceSensor.class, "frontDist");
+        frontC = hardwareMap.get(ColorSensor.class, "frontColor");
     }
 
     public double getBottomC ()
@@ -34,10 +36,22 @@ public class Sensors
         return frontD.getDistance(DistanceUnit.INCH);
     }
 
-    public boolean getFrontProximity()
+    public double getFrontRed ()
     {
-        return !Double.isNaN(frontD.getDistance(DistanceUnit.CM));
+        return bottomC.red();
     }
+
+    public double getFrontGreen ()
+    {
+        return bottomC.green();
+    }
+
+
+    public double getFrontBlue ()
+    {
+        return bottomC.blue();
+    }
+
 
     public boolean getClawAlignment()
     {

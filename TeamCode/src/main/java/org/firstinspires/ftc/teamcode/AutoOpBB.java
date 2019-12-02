@@ -99,7 +99,7 @@ public class AutoOpBB extends LinearOpMode
 
         driveBase.drive(1, 0, 0);
 
-        while(opModeIsActive() && !sensors.getFrontProximity());
+        while(opModeIsActive() && sensors.getFrontDistance() > 1);
 
         hooks.extend();
 
