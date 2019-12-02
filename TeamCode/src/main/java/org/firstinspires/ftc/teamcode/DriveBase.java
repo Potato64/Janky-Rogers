@@ -45,8 +45,8 @@ public class DriveBase
         blMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         brMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        headless = true;
-        imuStabililzed = true;
+        headless = false;
+        imuStabililzed = false;
 
         targetAngle = 0;
     }
@@ -91,6 +91,16 @@ public class DriveBase
             blMotor.setPower(frbl * speed - rot);
             brMotor.setPower(flbr * speed + rot);
         }
+    }
+
+    public void setHeadless(boolean isHeadless)
+    {
+        headless = isHeadless;
+    }
+
+    public void setImuStabililzed(boolean isImuStabilized)
+    {
+        imuStabililzed = isImuStabilized;
     }
 
     private double flbrPower(double angle)
