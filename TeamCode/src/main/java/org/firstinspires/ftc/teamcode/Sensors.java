@@ -20,7 +20,7 @@ public class Sensors
 
     public Sensors(HardwareMap hardwareMap)
     {
-        frontD = hardwareMap.get(DistanceSensor.class, "fColorDist");
+        frontD = hardwareMap.get(DistanceSensor.class, "fDist");
         frontC = hardwareMap.get(ColorSensor.class, "fColorDist");
     }
 

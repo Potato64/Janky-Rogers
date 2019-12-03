@@ -41,7 +41,7 @@ public class DriveBase
 
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 
-        frMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        flMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         blMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         brMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 

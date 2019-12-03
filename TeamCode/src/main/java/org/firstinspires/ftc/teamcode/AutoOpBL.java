@@ -16,7 +16,7 @@ public class AutoOpBL extends LinearOpMode
     private DriveOp driveOp;
     private DriveBase driveBase;
 
-    private DcMotor arm;
+    private Lift lift;
     private DcMotor claw;
 
     private BNO055IMU imu;
@@ -33,8 +33,8 @@ public class AutoOpBL extends LinearOpMode
     public void runOpMode()
     {
         driveBase = new DriveBase(hardwareMap);
+        lift = new Lift(hardwareMap);
 
-        arm = hardwareMap.get(DcMotor.class, "arm");
         claw = hardwareMap.get(DcMotor.class, "claw");
 
         imu = hardwareMap.get(BNO055IMU.class, "imu");

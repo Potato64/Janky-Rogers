@@ -16,8 +16,7 @@ public class AutoOpBuild extends LinearOpMode
 
     private DriveOp driveOp;
     private DriveBase driveBase;
-
-    private DcMotor arm;
+    private Lift lift;
 
     private BNO055IMU imu;
 
@@ -29,8 +28,7 @@ public class AutoOpBuild extends LinearOpMode
     {
         driveOp = new DriveOp(gamepad1);
         driveBase = new DriveBase(hardwareMap);
-
-        arm = hardwareMap.get(DcMotor.class, "arm");
+        lift = new Lift(hardwareMap);
 
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 

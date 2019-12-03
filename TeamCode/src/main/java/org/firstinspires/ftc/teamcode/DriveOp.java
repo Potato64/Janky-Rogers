@@ -18,7 +18,7 @@ public class DriveOp
 
     public double getAngle()
     {
-        return atan2(-gamepad.left_stick_y , -gamepad.left_stick_x) - PI / 2;
+        return atan2(-gamepad.left_stick_y , gamepad.left_stick_x) - PI / 2;
     }
 
     public double getPower()
@@ -28,6 +28,6 @@ public class DriveOp
 
     public double getRot()
     {
-        return gamepad.right_stick_x;
+        return -gamepad.right_stick_x;
     }
 }

@@ -18,9 +18,8 @@ public class AutoOpBB extends LinearOpMode
 
     private DriveOp driveOp;
     private DriveBase driveBase;
-    private Hooks hooks;
+    private Lift lift;
 
-    private DcMotor arm;
     private DcMotor claw;
 
     private BNO055IMU imu;
@@ -57,7 +56,7 @@ public class AutoOpBB extends LinearOpMode
     {
         driveBase = new DriveBase(hardwareMap);
 
-        arm = hardwareMap.get(DcMotor.class, "arm");
+        lift = new Lift(hardwareMap);
         claw = hardwareMap.get(DcMotor.class, "claw");
 
         imu = hardwareMap.get(BNO055IMU.class, "imu");
@@ -100,8 +99,6 @@ public class AutoOpBB extends LinearOpMode
         driveBase.drive(1, 0, 0);
 
         while(opModeIsActive() && sensors.getFrontDistance() > 1);
-
-        hooks.extend();
 
         driveBase.drive(-1, 0, 0);
 
