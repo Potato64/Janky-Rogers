@@ -41,6 +41,15 @@ public class DriveBase
 
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "AdafruitIMUCalibration.json";
+        parameters.loggingEnabled = true;
+        parameters.loggingTag = "IMU";
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        imu.initialize(parameters);
+
         flMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         blMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         brMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -53,7 +62,7 @@ public class DriveBase
 
     public void drive(double speed, double angle, double rot)
     {
-        double currentAngle = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.RADIANS).firstAngle;
+        double currentAngle = getAngle();
         if (headless)
         {
             angle -= currentAngle;
@@ -101,6 +110,11 @@ public class DriveBase
     public void setImuStabililzed(boolean isImuStabilized)
     {
         imuStabililzed = isImuStabilized;
+    }
+
+    public double getAngle()
+    {
+        return imu.getAngularOrientation(AxesReference.EXTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).thirdAngle;
     }
 
     private double flbrPower(double angle)

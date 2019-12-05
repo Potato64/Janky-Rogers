@@ -27,4 +27,13 @@ public class Lift
             liftMotor.setPower(power);
         }
     }
+
+    public boolean getDownState()
+    {
+        return downSwitch.getState();
+    }
+    public boolean getUpState()
+    {
+        return upSwitch.getState();
+    }
 }

@@ -1,19 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-
 import static java.lang.Math.PI;
 
 @Autonomous
-public class AutoOpBL extends LinearOpMode
+public class AutoOpRL extends LinearOpMode
 {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -75,7 +70,7 @@ public class AutoOpBL extends LinearOpMode
 
         while (sensors.getFrontGreen() + sensors.getFrontRed() > 65 && opModeIsActive())
         {
-            driveBase.drive(0.3, -PI/2 + 0.1 * (sensors.getFrontDistance() - 3), 0.02);
+            driveBase.drive(0.3, PI/2 - 0.1 * (sensors.getFrontDistance() - 3), -0.02);
         }
 
         driveBase.drive(0, 0, 0);
@@ -89,7 +84,7 @@ public class AutoOpBL extends LinearOpMode
     {
         driveBase.drive(-0.2, 0, 0);
         sleep(500);
-        driveBase.drive(0, 0, 0.5);
+        driveBase.drive(0, 0, -0.5);
 
 //        while (opModeIsActive() && driveBase.getAngle() < PI/2);
         sleep(500);
@@ -100,7 +95,7 @@ public class AutoOpBL extends LinearOpMode
 
         while (opModeIsActive() && sensors.getFrontDistance() > 12);
 
-        driveBase.drive(0, 0, -0.5);
+        driveBase.drive(0, 0, 0.5);
 
 //        while (opModeIsActive() && driveBase.getAngle() > 0);
         sleep(500);

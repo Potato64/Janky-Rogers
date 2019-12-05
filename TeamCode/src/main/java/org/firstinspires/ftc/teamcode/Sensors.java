@@ -38,18 +38,17 @@ public class Sensors
 
     public double getFrontRed ()
     {
-        return bottomC.red();
+        return frontC.red();
     }
 
     public double getFrontGreen ()
     {
-        return bottomC.green();
+        return frontC.green();
     }
-
 
     public double getFrontBlue ()
     {
-        return bottomC.blue();
+        return frontC.blue();
     }
 
 

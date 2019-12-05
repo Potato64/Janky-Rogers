@@ -30,11 +30,8 @@
 package org.firstinspires.ftc.teamcode;
 
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
-import com.qualcomm.robotcore.hardware.DigitalChannelImpl;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOp", group="Iterative Opmode")
@@ -45,11 +42,10 @@ public class TeleOp extends OpMode
 
     private DriveOp driveOp;
     private DriveBase driveBase;
-    private  Lift lift;
+    private Lift lift;
+    private Sensors sensors;
 
     private DcMotor claw;
-
-    private BNO055IMU imu;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -60,10 +56,9 @@ public class TeleOp extends OpMode
         driveOp = new DriveOp(gamepad1);
         driveBase = new DriveBase(hardwareMap);
         lift = new Lift(hardwareMap);
+        sensors = new Sensors(hardwareMap);
 
         claw = hardwareMap.get(DcMotor.class, "claw");
-
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
@@ -100,7 +95,14 @@ public class TeleOp extends OpMode
         claw.setPower(-gamepad2.right_stick_y);
 
         telemetry.addData("Target Angle: ", driveOp.getAngle());
-        telemetry.addData("Target Rotation: ", driveOp.getRot());
+        telemetry.addData("Current Angle: ", driveBase.getAngle());
+
+        telemetry.addData("Distance: ", sensors.getFrontDistance());
+        telemetry.addData("Red: ", sensors.getFrontRed());
+        telemetry.addData("Green: ", sensors.getFrontGreen());
+
+        telemetry.addData("Down Switch: ", lift.getDownState());
+        telemetry.addData("Up Switch: ", lift.getUpState());
         telemetry.addData("Status", "Run Time: " + runtime.toString());
     }
 
