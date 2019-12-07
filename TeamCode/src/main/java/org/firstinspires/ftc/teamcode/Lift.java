@@ -22,7 +22,15 @@ public class Lift
 
     public void setPower(double power)
     {
-        if (downSwitch.getState() && upSwitch.getState())
+        if (downSwitch.getState() && power > 0)
+        {
+            liftMotor.setPower(0);
+        }
+        else if (upSwitch.getState() && power < 0)
+        {
+            liftMotor.setPower(0);
+        }
+        else
         {
             liftMotor.setPower(power);
         }

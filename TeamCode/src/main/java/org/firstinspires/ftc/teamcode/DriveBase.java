@@ -28,7 +28,7 @@ public class DriveBase
     private boolean imuStabilizedTracker;
 
     private double targetAngle;
-    private final double rotStabCoef = 0.1;
+    private final double rotStabCoef = 0.35;
 
     private static final double wCoef = 1/(sin(23 * PI/36));
 
@@ -69,12 +69,16 @@ public class DriveBase
         }
         if (imuStabililzed)
         {
-            if (!imuStabilizedTracker)
+            if (!imuStabilizedTracker && rot == 0)
             {
                 targetAngle = currentAngle;
                 imuStabilizedTracker = true;
             }
-            rot += rotStabCoef * (currentAngle - targetAngle);
+            if (rot != 0)
+            {
+                imuStabilizedTracker = false;
+            }
+            rot -= rotStabCoef * (currentAngle - targetAngle);
         }
 
         double flbr = flbrPower(angle);
@@ -114,7 +118,7 @@ public class DriveBase
 
     public double getAngle()
     {
-        return imu.getAngularOrientation(AxesReference.EXTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).thirdAngle;
+        return imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle;
     }
 
     private double flbrPower(double angle)

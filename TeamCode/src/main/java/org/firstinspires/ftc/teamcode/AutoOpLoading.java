@@ -16,7 +16,9 @@ public class AutoOpLoading extends LinearOpMode
 
     private DriveOp driveOp;
     private DriveBase driveBase;
+
     private Lift lift;
+    private DcMotor claw;
 
     private BNO055IMU imu;
 
@@ -29,6 +31,7 @@ public class AutoOpLoading extends LinearOpMode
         driveOp = new DriveOp(gamepad1);
         driveBase = new DriveBase(hardwareMap);
         lift = new Lift(hardwareMap);
+        claw = hardwareMap.get(DcMotor.class, "claw");
 
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 
@@ -43,13 +46,30 @@ public class AutoOpLoading extends LinearOpMode
 //
 //        sleep(1000);
 
-        driveBase.drive(0.5, -PI/2, 0);
+//        driveBase.drive(0.5, -PI/2, 0);
+//
+//        sleep(2000);
+//
+//        driveBase.drive(0.5, PI, 0);
+//
+//        sleep(500);
 
-        sleep(2000);
 
-        driveBase.drive(0.5, PI, 0);
+        claw.setPower(1);
+        sleep(650);
+        claw.setPower(0);
 
+        lift.setPower(0.3);
+        sleep(1000);
+        lift.setPower(0);
+
+        claw.setPower(-0.3);
+        sleep(650);
+        claw.setPower(0);
+
+        lift.setPower(-1);
         sleep(500);
+        lift.setPower(0);
 
     }
 

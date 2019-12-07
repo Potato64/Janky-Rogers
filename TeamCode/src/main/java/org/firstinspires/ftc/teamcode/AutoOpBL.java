@@ -35,7 +35,7 @@ public class AutoOpBL extends LinearOpMode
         driveBase = new DriveBase(hardwareMap);
         lift = new Lift(hardwareMap);
 
-//        driveBase.setImuStabililzed(true);
+        driveBase.setImuStabililzed(true);
 
         claw = hardwareMap.get(DcMotor.class, "claw");
 
@@ -50,7 +50,7 @@ public class AutoOpBL extends LinearOpMode
 
         while (opModeIsActive() && sensors.getFrontDistance() > 7)
         {
-            driveBase.drive(0.2 + (sensors.getFrontDistance() - 10) * 0.1, 0, 0);
+            driveBase.drive(0.1 + (sensors.getFrontDistance() - 7) * 0.07, 0, 0);
         }
 
         driveBase.drive(0, 0, 0);
@@ -61,9 +61,9 @@ public class AutoOpBL extends LinearOpMode
 
         placeStone();
 
-        getSkystone();
+//        getSkystone();
 
-        placeStone();
+//        placeStone();
 
 //        driveBase.drive(0.3, PI/2, 0);
 
@@ -73,58 +73,82 @@ public class AutoOpBL extends LinearOpMode
     private void getSkystone()
     {
 
-        while (sensors.getFrontGreen() + sensors.getFrontRed() > 65 && opModeIsActive())
+        while (sensors.getFrontRed() > 18 && opModeIsActive())
         {
-            driveBase.drive(0.3, -PI/2 + 0.1 * (sensors.getFrontDistance() - 3), 0.02);
+            driveBase.drive(0.4, -PI/2 + 0.1 * (sensors.getFrontDistance() - 3.5), 0);
         }
+
+        sleep(500);
 
         driveBase.drive(0, 0, 0);
 
-        sleep(2000);
+        sleep(600);
 
-//        pickSkystone();
+        pickSkystone();
     }
 
     private void placeStone()
     {
-        driveBase.drive(-0.2, 0, 0);
-        sleep(500);
+        driveBase.drive(0.5, -11*PI/8, 0);
+        sleep(1500);
         driveBase.drive(0, 0, 0.5);
 
-//        while (opModeIsActive() && driveBase.getAngle() < PI/2);
-        sleep(500);
+        while (opModeIsActive() && driveBase.getAngle() < 5*PI/8);
 
-        driveBase.drive(1, 0, 0);
+        driveBase.drive(0.5, 0, 0);
+
+        lift.setPower(0.3);
+
+        sleep(1000);
+
+        lift.setPower(0);
 
         sleep(3000);
 
-        while (opModeIsActive() && sensors.getFrontDistance() > 12);
+        driveBase.drive(0, 0, 0);
 
-        driveBase.drive(0, 0, -0.5);
+        claw.setPower(0.5);
+        sleep(200);
+        claw.setPower(0);
 
-//        while (opModeIsActive() && driveBase.getAngle() > 0);
+        lift.setPower(-1);
         sleep(500);
+        lift.setPower(0);
 
-//        placeSkystone();
+        driveBase.drive(-0.5, PI, 0);
+
+        sleep(1500);
     }
 
     private void pickSkystone()
     {
-        driveBase.drive(0.2, 0, 0);
 
-        while (opModeIsActive() && sensors.getFrontDistance() > 1);
+        if (sensors.getFrontDistance() > 3.5)
+        {
+            driveBase.drive(0.2, 0, 0);
+            while (opModeIsActive() && sensors.getFrontDistance() > 3.5);
+        }
+        else if (sensors.getFrontDistance() < 3.5)
+        {
+            driveBase.drive(-0.2, 0, 0);
+            while (opModeIsActive() && sensors.getFrontDistance() < 3.5);
+        }
 
         driveBase.drive(0, 0, 0);
 
-        lift.setPower(-1);
-        sleep(1000);
-        lift.setPower(0);
-
-        claw.setPower(-0.3);
-        sleep(500);
+        claw.setPower(1);
+        sleep(575);
         claw.setPower(0);
 
-        lift.setPower(1);
+        lift.setPower(0.3);
+        sleep(2000);
+        lift.setPower(0);
+
+        claw.setPower(-0.5);
+        sleep(875);
+        claw.setPower(0);
+
+        lift.setPower(-1);
         sleep(1000);
         lift.setPower(0);
     }
