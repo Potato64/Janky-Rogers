@@ -71,14 +71,20 @@ public class DriveBase
         {
             if (!imuStabilizedTracker && rot == 0)
             {
-                targetAngle = currentAngle;
+//                rot -= rotStabCoef * (currentAngle - targetAngle);
+                double temp = currentAngle - targetAngle;
+                temp += (temp > PI / 2) ? -2*PI : (temp < -PI / 2) ? 2*PI : 0;
+                rot -= rotStabCoef * temp;
+            }
+            else if (!imuStabilizedTracker && rot != 0)
+            {
                 imuStabilizedTracker = true;
             }
-            if (rot != 0)
+            else
             {
+                targetAngle = currentAngle;
                 imuStabilizedTracker = false;
             }
-            rot -= rotStabCoef * (currentAngle - targetAngle);
         }
 
         double flbr = flbrPower(angle);

@@ -14,7 +14,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import static java.lang.Math.PI;
 
 @Autonomous
-@Disabled
 public class AutoOpBL extends LinearOpMode
 {
     // Declare OpMode members.

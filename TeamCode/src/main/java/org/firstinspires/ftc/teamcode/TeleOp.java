@@ -60,6 +60,8 @@ public class TeleOp extends OpMode
 
         claw = hardwareMap.get(DcMotor.class, "claw");
 
+        driveBase.setImuStabililzed(true);
+
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
     }
