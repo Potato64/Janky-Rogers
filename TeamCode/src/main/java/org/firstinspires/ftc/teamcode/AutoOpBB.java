@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -11,6 +13,8 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
 import static java.lang.Math.PI;
 
+@Autonomous
+@Disabled
 public class AutoOpBB extends LinearOpMode
 {
     // Declare OpMode members.

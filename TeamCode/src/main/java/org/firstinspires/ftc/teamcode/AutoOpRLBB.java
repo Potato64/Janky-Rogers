@@ -8,8 +8,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import static java.lang.Math.PI;
 
-@Autonomous
-public class AutoOpLoading extends LinearOpMode
+@Autonomous(name = "Red Load, Blue Build")
+public class AutoOpRLBB extends LinearOpMode
 {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -42,34 +42,13 @@ public class AutoOpLoading extends LinearOpMode
         waitForStart();
         runtime.reset();
 
-//        arm.setPower(0.5);
-//
-//        sleep(1000);
+        driveBase.drive(0.5, -PI/2, 0);
 
-//        driveBase.drive(0.5, -PI/2, 0);
-//
-//        sleep(2000);
-//
-//        driveBase.drive(0.5, PI, 0);
-//
-//        sleep(500);
+        sleep(2000);
 
+        driveBase.drive(0.5, 0, 0);
 
-        claw.setPower(1);
-        sleep(650);
-        claw.setPower(0);
-
-        lift.setPower(0.3);
         sleep(1000);
-        lift.setPower(0);
-
-        claw.setPower(-0.3);
-        sleep(650);
-        claw.setPower(0);
-
-        lift.setPower(-1);
-        sleep(500);
-        lift.setPower(0);
 
     }
 

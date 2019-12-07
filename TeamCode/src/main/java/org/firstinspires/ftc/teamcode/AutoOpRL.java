@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -8,6 +9,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import static java.lang.Math.PI;
 
 @Autonomous
+@Disabled
 public class AutoOpRL extends LinearOpMode
 {
     // Declare OpMode members.
