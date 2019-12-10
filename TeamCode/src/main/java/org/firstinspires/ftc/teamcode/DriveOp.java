@@ -30,4 +30,9 @@ public class DriveOp
     {
         return -gamepad.right_stick_x;
     }
+
+    public boolean alignWithStone()
+    {
+        return gamepad.a;
+    }
 }

@@ -90,7 +90,14 @@ public class TeleOp extends OpMode
     @Override
     public void loop()
     {
-        driveBase.drive(driveOp.getPower(), driveOp.getAngle(), driveOp.getRot());
+        if (driveOp.alignWithStone())
+        {
+            driveBase.drive((sensors.getFrontDistance() - 3.5) * 0.1, 0, 0);
+        }
+        else
+        {
+            driveBase.drive(driveOp.getPower(), driveOp.getAngle(), driveOp.getRot());
+        }
 
         lift.setPower(gamepad2.left_stick_y);
 
@@ -98,10 +105,6 @@ public class TeleOp extends OpMode
 
         telemetry.addData("Target Angle: ", driveOp.getAngle());
         telemetry.addData("Current Angle: ", driveBase.getAngle());
-
-        telemetry.addData("Distance: ", sensors.getFrontDistance());
-        telemetry.addData("Red: ", sensors.getFrontRed());
-        telemetry.addData("Green: ", sensors.getFrontGreen());
 
         telemetry.addData("Down Switch: ", lift.getDownState());
         telemetry.addData("Up Switch: ", lift.getUpState());

@@ -28,7 +28,9 @@ public class DriveBase
     private boolean imuStabilizedTracker;
 
     private double targetAngle;
-    private final double rotStabCoef = 0.35;
+    private final double rotStabCoefP = 0.35;
+    private final double rotStabCoefI = 0.1;
+    private double rotStabAccum;
 
     private static final double wCoef = 1/(sin(23 * PI/36));
 
@@ -56,6 +58,7 @@ public class DriveBase
 
         headless = false;
         imuStabililzed = false;
+        rotStabAccum = 0;
 
         targetAngle = 0;
     }
@@ -71,10 +74,12 @@ public class DriveBase
         {
             if (!imuStabilizedTracker && rot == 0)
             {
-//                rot -= rotStabCoef * (currentAngle - targetAngle);
-                double temp = currentAngle - targetAngle;
-                temp += (temp > PI / 2) ? -2*PI : (temp < -PI / 2) ? 2*PI : 0;
-                rot -= rotStabCoef * temp;
+                double error = currentAngle - targetAngle;
+                error += (error > PI / 2) ? -2*PI : (error < -PI / 2) ? 2*PI : 0;
+
+                rotStabAccum += error;
+
+                rot -= rotStabCoefP * error + rotStabCoefI * rotStabAccum;
             }
             else if (!imuStabilizedTracker && rot != 0)
             {
@@ -83,6 +88,7 @@ public class DriveBase
             else
             {
                 targetAngle = currentAngle;
+                rotStabAccum = 0;
                 imuStabilizedTracker = false;
             }
         }
