@@ -18,10 +18,13 @@ public class Sensors
     private DistanceSensor frontD;
     private ColorSensor frontC;
 
+    private DistanceSensor backD;
     public Sensors(HardwareMap hardwareMap)
     {
         frontD = hardwareMap.get(DistanceSensor.class, "fDist");
         frontC = hardwareMap.get(ColorSensor.class, "fColorDist");
+
+        backD = hardwareMap.get(DistanceSensor.class, "bDist");
     }
 
     public double getBottomC ()
@@ -34,6 +37,11 @@ public class Sensors
     public double getFrontDistance()
     {
         return frontD.getDistance(DistanceUnit.INCH);
+    }
+
+    public double getBackDistance()
+    {
+        return backD.getDistance(DistanceUnit.INCH);
     }
 
     public double getFrontRed ()

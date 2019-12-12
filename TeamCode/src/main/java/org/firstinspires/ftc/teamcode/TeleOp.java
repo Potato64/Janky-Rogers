@@ -61,6 +61,7 @@ public class TeleOp extends OpMode
         claw = hardwareMap.get(DcMotor.class, "claw");
 
         driveBase.setImuStabililzed(true);
+        driveBase.setHeadless(true);
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
@@ -105,6 +106,9 @@ public class TeleOp extends OpMode
 
         telemetry.addData("Target Angle: ", driveOp.getAngle());
         telemetry.addData("Current Angle: ", driveBase.getAngle());
+
+        telemetry.addData("frontD: ", sensors.getFrontDistance());
+        telemetry.addData("backD: ", sensors.getBackDistance());
 
         telemetry.addData("Down Switch: ", lift.getDownState());
         telemetry.addData("Up Switch: ", lift.getUpState());

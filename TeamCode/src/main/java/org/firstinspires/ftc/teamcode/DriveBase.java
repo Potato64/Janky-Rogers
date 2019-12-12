@@ -29,7 +29,7 @@ public class DriveBase
 
     private double targetAngle;
     private final double rotStabCoefP = 0.35;
-    private final double rotStabCoefI = 0.1;
+    private final double rotStabCoefI = 0.07;
     private double rotStabAccum;
 
     private static final double wCoef = 1/(sin(23 * PI/36));
@@ -128,9 +128,19 @@ public class DriveBase
         imuStabililzed = isImuStabilized;
     }
 
+    public void setStablilizedHeading(double heading)
+    {
+        targetAngle = heading;
+    }
+
     public double getAngle()
     {
         return imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle;
+    }
+
+    public double getTargetAngle()
+    {
+        return targetAngle;
     }
 
     private double flbrPower(double angle)
