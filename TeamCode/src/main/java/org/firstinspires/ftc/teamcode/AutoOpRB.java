@@ -1,16 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import java.util.concurrent.TimeUnit;
-
 import static java.lang.Math.PI;
 
-@Autonomous
-public class AutoOpBB extends LinearOpMode
+public class AutoOpRB extends LinearOpMode
 {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -50,7 +46,7 @@ public class AutoOpBB extends LinearOpMode
 
         while(opModeIsActive() && sensors.getFrontDistance() > 8.5)
         {
-            driveBase.drive(0.1 + (sensors.getFrontDistance() - 5) * 0.1, PI / 8, 0);
+            driveBase.drive(0.1 + (sensors.getFrontDistance() - 5) * 0.1, -PI / 8, 0);
         }
 
         driveBase.drive(0, 0, 0);
@@ -76,12 +72,12 @@ public class AutoOpBB extends LinearOpMode
 
         while (opModeIsActive() && sensors.getBackDistance() > 5)
         {
-            driveBase.drive(sensors.getBackDistance() * 0.02 + 0.5, -7*PI/8, 0);
+            driveBase.drive(sensors.getBackDistance() * 0.02 + 0.5, 7*PI/8, 0);
         }
 
         driveBase.drive(0, 0, 0.5);
 
-        while (opModeIsActive() && driveBase.getAngle() < PI/4);
+        while (opModeIsActive() && driveBase.getAngle() < -PI/4);
 
         driveBase.drive(0, 0, 0);
 
@@ -89,12 +85,12 @@ public class AutoOpBB extends LinearOpMode
         sleep(750);
         lift.setPower(0);
 
-        driveBase.setStablilizedHeading(PI/2);
+        driveBase.setStablilizedHeading(-PI/2);
 
         double now = runtime.milliseconds();
         while (opModeIsActive() && runtime.milliseconds() - now < 2400)
         {
-            driveBase.drive(1, -PI/2, 0);
+            driveBase.drive(1, PI/2, 0);
         }
     }
 }
