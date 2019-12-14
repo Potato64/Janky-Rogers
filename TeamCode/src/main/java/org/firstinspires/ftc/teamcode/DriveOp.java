@@ -23,12 +23,14 @@ public class DriveOp
 
     public double getPower()
     {
-        return sqrt(gamepad.left_stick_x * gamepad.left_stick_x + gamepad.left_stick_y * gamepad.left_stick_y);
+        double power =  sqrt(gamepad.left_stick_x * gamepad.left_stick_x + gamepad.left_stick_y * gamepad.left_stick_y);
+        return gamepad.x ? power / 2 : power;
     }
 
     public double getRot()
     {
-        return -gamepad.right_stick_x;
+        double rot = -gamepad.right_stick_x;
+        return gamepad.x ? rot / 2 : rot;
     }
 
     public boolean alignWithStone()
