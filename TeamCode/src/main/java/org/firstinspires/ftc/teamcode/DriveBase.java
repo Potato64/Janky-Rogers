@@ -27,7 +27,7 @@ public class DriveBase
     private boolean imuStabililzed;
     private boolean imuStabilizedTracker;
 
-    private double targetAngle;
+    private double targetHeading;
     private final double rotStabCoefP = 0.35;
     private final double rotStabCoefI = 0.07;
     private double rotStabAccum;
@@ -60,21 +60,21 @@ public class DriveBase
         imuStabililzed = false;
         rotStabAccum = 0;
 
-        targetAngle = 0;
+        targetHeading = 0;
     }
 
-    public void drive(double speed, double angle, double rot)
+    public void drive(double speed, double direction, double rot)
     {
-        double currentAngle = getAngle();
+        double currentAngle = getHeading();
         if (headless)
         {
-            angle -= currentAngle;
+            direction -= currentAngle;
         }
         if (imuStabililzed)
         {
             if (!imuStabilizedTracker && rot == 0)
             {
-                double error = currentAngle - targetAngle;
+                double error = currentAngle - targetHeading;
                 error += (error > PI / 2) ? -2*PI : (error < -PI / 2) ? 2*PI : 0;
 
                 rotStabAccum += error;
@@ -87,14 +87,14 @@ public class DriveBase
             }
             else
             {
-                targetAngle = currentAngle;
+                targetHeading = currentAngle;
                 rotStabAccum = 0;
                 imuStabilizedTracker = false;
             }
         }
 
-        double flbr = flbrPower(angle);
-        double frbl = frblPower(angle);
+        double flbr = flbrPower(direction);
+        double frbl = frblPower(direction);
 
         double maxMovePower = abs(flbr) > abs(frbl) ? abs(flbr) : abs(frbl);
         flbr /= maxMovePower;
@@ -130,17 +130,17 @@ public class DriveBase
 
     public void setStablilizedHeading(double heading)
     {
-        targetAngle = heading;
+        targetHeading = heading;
     }
 
-    public double getAngle()
+    public double getHeading()
     {
         return imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle;
     }
 
-    public double getTargetAngle()
+    public double getTargetHeading()
     {
-        return targetAngle;
+        return targetHeading;
     }
 
     private double flbrPower(double angle)

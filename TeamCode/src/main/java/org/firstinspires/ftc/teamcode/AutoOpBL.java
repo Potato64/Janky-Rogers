@@ -1,15 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 
 import static java.lang.Math.PI;
 
@@ -123,7 +117,7 @@ public class AutoOpBL extends LinearOpMode
         sleep(600);
         driveBase.drive(0, 0, 0.5);
 
-        while (opModeIsActive() && driveBase.getAngle() < PI/2 - 0.1);
+        while (opModeIsActive() && driveBase.getHeading() < PI/2 - 0.1);
 
         driveBase.setStablilizedHeading(PI/2);
 

@@ -5,8 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import java.util.concurrent.TimeUnit;
-
 import static java.lang.Math.PI;
 
 @Autonomous
@@ -60,7 +58,7 @@ public class AutoOpBB extends LinearOpMode
         double distI = 0;
         double lastDist = sensors.getFrontDistance() - foundationDist;
 
-        while(opModeIsActive() && (Math.abs(sensors.getFrontDistance() - foundationDist) > 0.03 || Math.abs(driveBase.getAngle()) > 0.03))
+        while(opModeIsActive() && (Math.abs(sensors.getFrontDistance() - foundationDist) > 0.03 || Math.abs(driveBase.getHeading()) > 0.03))
         {
             double distError = sensors.getFrontDistance() - foundationDist;
             distI += distError;
@@ -81,7 +79,7 @@ public class AutoOpBB extends LinearOpMode
 
         driveBase.drive(0, 0, 0.5);
 
-        while (opModeIsActive() && driveBase.getAngle() < PI/4);
+        while (opModeIsActive() && driveBase.getHeading() < PI/4);
 
         driveBase.drive(0, 0, 0);
 

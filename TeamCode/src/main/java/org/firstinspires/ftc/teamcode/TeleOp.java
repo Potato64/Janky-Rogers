@@ -105,7 +105,7 @@ public class TeleOp extends OpMode
         claw.setPower(-gamepad2.right_stick_y);
 
         telemetry.addData("Target Angle: ", driveOp.getAngle());
-        telemetry.addData("Current Angle: ", driveBase.getAngle());
+        telemetry.addData("Current Angle: ", driveBase.getHeading());
 
         telemetry.addData("frontD: ", sensors.getFrontDistance());
         telemetry.addData("backD: ", sensors.getBackDistance());

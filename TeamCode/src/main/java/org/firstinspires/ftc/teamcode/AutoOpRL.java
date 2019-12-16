@@ -88,7 +88,7 @@ public class AutoOpRL extends LinearOpMode
         sleep(500);
         driveBase.drive(0, 0, -0.5);
 
-//        while (opModeIsActive() && driveBase.getAngle() < PI/2);
+//        while (opModeIsActive() && driveBase.getHeading() < PI/2);
         sleep(500);
 
         driveBase.drive(1, 0, 0);
@@ -99,7 +99,7 @@ public class AutoOpRL extends LinearOpMode
 
         driveBase.drive(0, 0, 0.5);
 
-//        while (opModeIsActive() && driveBase.getAngle() > 0);
+//        while (opModeIsActive() && driveBase.getHeading() > 0);
         sleep(500);
 
 //        placeSkystone();
