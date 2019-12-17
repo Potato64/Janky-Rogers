@@ -13,7 +13,6 @@ public class AutoOpBB extends LinearOpMode
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
 
-    private DriveOp driveOp;
     private DriveBase driveBase;
     private Lift lift;
 
