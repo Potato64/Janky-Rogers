@@ -75,7 +75,7 @@ public class DriveBase
             if (!imuStabilizedTracker && rot == 0)
             {
                 double error = currentAngle - targetHeading;
-                error += (error > PI / 2) ? -2*PI : (error < -PI / 2) ? 2*PI : 0;
+                error += (error > PI) ? -2*PI : (error < -PI) ? 2*PI : 0;
 
                 rotStabAccum += error;
 
@@ -131,6 +131,7 @@ public class DriveBase
     public void setStablilizedHeading(double heading)
     {
         targetHeading = heading;
+        heading += (heading > PI) ? -2*PI : (heading < -PI) ? 2*PI : 0;
     }
 
     public double getHeading()
