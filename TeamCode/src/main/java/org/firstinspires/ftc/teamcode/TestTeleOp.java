@@ -41,7 +41,7 @@ public class TestTeleOp extends OpMode
     private ElapsedTime runtime = new ElapsedTime();
 
     private DriveOp2 driveOp;
-    private DriveBase driveBase;
+    private NewPIDDriveBase driveBase;
     private Sensors sensors;
 
     boolean test = true;
@@ -53,7 +53,7 @@ public class TestTeleOp extends OpMode
     public void init()
     {
         driveOp = new DriveOp2(gamepad1);
-        driveBase = new DriveBase(hardwareMap);
+        driveBase = new NewPIDDriveBase(hardwareMap);
         sensors = new Sensors(hardwareMap);
 
         driveBase.setImuStabililzed(true);
@@ -97,10 +97,10 @@ public class TestTeleOp extends OpMode
             driveBase.setStablilizedHeading(driveOp.setHeading());
         }
 
-//        telemetry.addData("Time: ", driveBase.getPidTime());
-//        telemetry.addData("Error: ", driveBase.getErrorFunct());
-//        telemetry.addData("Accum: ", driveBase.getRotStabAccumt());
-        telemetry.addData("Target Angle: ", driveOp.getAngle());
+        telemetry.addData("Time: ", driveBase.getPidTime());
+        telemetry.addData("Error: ", driveBase.getErrorFunct());
+        telemetry.addData("Accum: ", driveBase.getRotStabAccum());
+        telemetry.addData("Target Angle: ", driveOp.setHeading());
         telemetry.addData("Status", "Run Time: " + runtime.toString());
     }
 

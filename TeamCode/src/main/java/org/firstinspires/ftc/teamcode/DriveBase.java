@@ -130,8 +130,8 @@ public class DriveBase
 
     public void setStablilizedHeading(double heading)
     {
-        targetHeading = heading;
         heading += (heading > PI) ? -2*PI : (heading < -PI) ? 2*PI : 0;
+        targetHeading = heading;
     }
 
     public double getHeading()

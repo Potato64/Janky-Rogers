@@ -36,7 +36,7 @@ public class NewPIDDriveBase
 
     private double targetHeading;
     private static final double rotStabKp = 0.35;
-    private static final double rotStabKi = 0.2;
+    private static final double rotStabKi = 0.3;
     private static final double baseMaxRot = 3.3;
     private double rotStabAccum;
 
@@ -124,7 +124,7 @@ public class NewPIDDriveBase
             if (!imuStabilizedTracker && rot == 0)
             {
                 double error = currentAngle - targetHeading;
-                error += (error > PI / 2) ? -2*PI : (error < -PI / 2) ? 2*PI : 0;
+                error += (error > PI) ? -2*PI : (error < -PI) ? 2*PI : 0;
 
                 rotStabAccum += 0.02 * (error - initErrorSign * (double)errorFromTime.apply(initialTime - pidTimer.seconds()));
 
@@ -182,9 +182,9 @@ public class NewPIDDriveBase
         targetHeading = heading;
 
         double error = getHeading() - targetHeading;
-        error += (error > PI / 2) ? -2*PI : (error < -PI / 2) ? 2*PI : 0;
+        error += (error > PI) ? -2*PI : (error < -PI) ? 2*PI : 0;
 
-        if (error > 1)
+        if (abs(error) > 1)
         {
             initialTime = (double) timeFromError.apply(abs(error));
             initErrorSign = signum(error);
@@ -221,7 +221,7 @@ public class NewPIDDriveBase
         return initErrorSign * (double)errorFromTime.apply(initialTime - pidTimer.seconds());
     }
 
-    public double getRotStabAccumt()
+    public double getRotStabAccum()
     {
         return rotStabAccum;
     }

@@ -32,9 +32,9 @@ public class DriveOp2
     public double setHeading()
     {
         double target = atan2(-gamepad.right_stick_y , gamepad.right_stick_x);
-        if (target == 0)
+        if (target == 0 && gamepad.right_stick_y == 0)
         {
-            return 0;
+            return lastTarget;
         }
         return lastTarget = target - PI / 2;
     }
