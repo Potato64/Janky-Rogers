@@ -14,6 +14,7 @@ import static java.lang.Math.abs;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
+@Deprecated
 public class DriveBase
 {
     private DcMotor frMotor;

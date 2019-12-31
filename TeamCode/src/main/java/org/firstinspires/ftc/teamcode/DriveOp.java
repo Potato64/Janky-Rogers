@@ -6,6 +6,7 @@ import static java.lang.Math.PI;
 import static java.lang.Math.atan2;
 import static java.lang.Math.sqrt;
 
+@Deprecated
 public class DriveOp
 {
 

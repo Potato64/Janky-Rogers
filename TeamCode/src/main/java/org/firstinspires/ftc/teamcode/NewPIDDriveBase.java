@@ -36,7 +36,7 @@ public class NewPIDDriveBase
 
     private double targetHeading;
     private static final double rotStabKp = 0.35;
-    private static final double rotStabKi = 0.3;
+    private static final double rotStabKi = 0.07;
     private static final double baseMaxRot = 3.3;
     private double rotStabAccum;
 
@@ -126,7 +126,7 @@ public class NewPIDDriveBase
                 double error = currentAngle - targetHeading;
                 error += (error > PI) ? -2*PI : (error < -PI) ? 2*PI : 0;
 
-                rotStabAccum += 0.02 * (error - initErrorSign * (double)errorFromTime.apply(initialTime - pidTimer.seconds()));
+                rotStabAccum += error - initErrorSign * (double)errorFromTime.apply(initialTime - pidTimer.seconds());
 
                 rot -= rotStabKp * error + rotStabKi * rotStabAccum;
             }

@@ -14,7 +14,8 @@ public class TestBotParams extends LinearOpMode
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
 
-    private DriveBase driveBase;
+    private NewPIDDriveBase driveBase;
+    private Sensors sensors;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -22,7 +23,11 @@ public class TestBotParams extends LinearOpMode
     @Override
     public void runOpMode()
     {
-        driveBase = new DriveBase(hardwareMap);
+        driveBase = new NewPIDDriveBase(hardwareMap);
+        sensors = new Sensors(hardwareMap);
+
+        driveBase.setImuStabililzed(true);
+        driveBase.setHeadless(true);
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
@@ -31,68 +36,91 @@ public class TestBotParams extends LinearOpMode
         waitForStart();
         runtime.reset();
 
-        driveBase.drive(0, 0, 1);
+        driveBase.drive(-1, 0, 0);
 
-        sleep(1000);
+        sleep(500);
 
-        double lastHeading = driveBase.getHeading();
+        double lastDist = sensors.getBackDistance();
         double accumError = 0;
         runtime.reset();
 
-        while (opModeIsActive() && runtime.seconds() < 10)
+        while (opModeIsActive() && runtime.seconds() < 1)
         {
-            double currentHeading = driveBase.getHeading();
-            double error = currentHeading - lastHeading;
+            driveBase.drive(-1, 0, 0);
+
+            double currentDist = sensors.getBackDistance();
+            double error = currentDist - lastDist;
             error += (error > PI / 2) ? -2*PI : (error < -PI / 2) ? 2*PI : 0;
 
             accumError += error;
-            lastHeading = currentHeading;
+            lastDist = currentDist;
 
         }
 
-        double fullPowerVeloc = accumError / 10;
+        double fullPowerVeloc = accumError / 1;
 
         telemetry.addData("Full Power Veloc: ", fullPowerVeloc);
 
-        driveBase.drive(0, 0, 0.6);
-
-        sleep(1000);
-
-        lastHeading = driveBase.getHeading();
-        accumError = 0;
-        runtime.reset();
+        driveBase.setStablilizedHeading(PI);
 
         while (opModeIsActive() && runtime.seconds() < 10)
         {
-            double currentHeading = driveBase.getHeading();
-            double error = currentHeading - lastHeading;
+            driveBase.drive(0, 0, 0);
+        }
+
+        while (opModeIsActive() && runtime.seconds() < 10.5)
+        {
+            driveBase.drive(0.6, 0, 0);
+        }
+
+        lastDist = sensors.getBackDistance();
+        accumError = 0;
+        runtime.reset();
+
+        while (opModeIsActive() && runtime.seconds() < 1)
+        {
+            driveBase.drive(0.6, 0, 0);
+
+            double currentDist = sensors.getBackDistance();
+            double error = currentDist - lastDist;
             error += (error > PI / 2) ? -2*PI : (error < -PI / 2) ? 2*PI : 0;
 
             accumError += error;
-            lastHeading = currentHeading;
+            lastDist = currentDist;
 
         }
 
-        double point6PowerVeloc = accumError / 10;
+        double point6PowerVeloc = accumError / 1;
 
         telemetry.addData("0.6 Power Veloc: ", point6PowerVeloc);
 
-        driveBase.drive(0, 0, 0.3);
-
-        sleep(1000);
-
-        lastHeading = driveBase.getHeading();
-        accumError = 0;
-        runtime.reset();
+        driveBase.drive(0, 0, 0);
+        driveBase.setStablilizedHeading(0);
 
         while (opModeIsActive() && runtime.seconds() < 10)
         {
-            double currentHeading = driveBase.getHeading();
-            double error = currentHeading - lastHeading;
+            driveBase.drive(0, 0, 0);
+        }
+
+        while (opModeIsActive() && runtime.seconds() < 10.5)
+        {
+            driveBase.drive(-0.3, 0, 0);
+        }
+
+        lastDist = sensors.getBackDistance();
+        accumError = 0;
+        runtime.reset();
+
+        while (opModeIsActive() && runtime.seconds() < 1)
+        {
+            driveBase.drive(-0.3, 0, 0);
+
+            double currentDist = sensors.getBackDistance();
+            double error = currentDist - lastDist;
             error += (error > PI / 2) ? -2*PI : (error < -PI / 2) ? 2*PI : 0;
 
             accumError += error;
-            lastHeading = currentHeading;
+            lastDist = currentDist;
 
         }
 
@@ -104,6 +132,9 @@ public class TestBotParams extends LinearOpMode
 
         driveBase.drive(0, 0, 0);
 
-        while (opModeIsActive());
+        while (opModeIsActive())
+        {
+            driveBase.drive(0, 0, 0);
+        }
     }
 }

@@ -40,8 +40,8 @@ public class TeleOp extends OpMode
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
 
-    private DriveOp driveOp;
-    private DriveBase driveBase;
+    private DriveOp2 driveOp;
+    private NewPIDDriveBase driveBase;
     private Lift lift;
     private Sensors sensors;
 
@@ -53,8 +53,8 @@ public class TeleOp extends OpMode
     @Override
     public void init()
     {
-        driveOp = new DriveOp(gamepad1);
-        driveBase = new DriveBase(hardwareMap);
+        driveOp = new DriveOp2(gamepad1);
+        driveBase = new NewPIDDriveBase(hardwareMap);
         lift = new Lift(hardwareMap);
         sensors = new Sensors(hardwareMap);
 
@@ -97,7 +97,8 @@ public class TeleOp extends OpMode
         }
         else
         {
-            driveBase.drive(driveOp.getPower(), driveOp.getAngle(), driveOp.getRot());
+            driveBase.drive(driveOp.getPower(), driveOp.getAngle(), 0);
+            driveBase.setStablilizedHeading(driveOp.setHeading());
         }
 
         lift.setPower(gamepad2.left_stick_y);
