@@ -13,8 +13,7 @@ public class AutoOpBL extends LinearOpMode
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
 
-    private DriveOp driveOp;
-    private DriveBase driveBase;
+    private NewPIDDriveBase driveBase;
 
     private Lift lift;
     private DcMotor claw;
@@ -31,7 +30,7 @@ public class AutoOpBL extends LinearOpMode
     @Override
     public void runOpMode()
     {
-        driveBase = new DriveBase(hardwareMap);
+        driveBase = new NewPIDDriveBase(hardwareMap);
         lift = new Lift(hardwareMap);
 
         driveBase.setImuStabililzed(true);
@@ -72,7 +71,7 @@ public class AutoOpBL extends LinearOpMode
                 targetPos = 8;
                 break;
             default:
-                targetPos = 8;
+                targetPos = 3;
         }
 
 //        while (opModeIsActive() && sensors.getBackDistance() > 48)
@@ -114,12 +113,9 @@ public class AutoOpBL extends LinearOpMode
     private void placeStone()
     {
         driveBase.drive(0.5, PI, 0);
-        sleep(600);
-        driveBase.drive(0, 0, 0.5);
+        driveBase.setStablilizedHeading(PI/2);
 
         while (opModeIsActive() && driveBase.getHeading() < PI/2 - 0.1);
-
-        driveBase.setStablilizedHeading(PI/2);
 
         double backDist = sensors.getBackDistance();
 

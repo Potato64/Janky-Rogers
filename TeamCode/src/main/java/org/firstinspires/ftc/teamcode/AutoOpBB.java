@@ -13,7 +13,7 @@ public class AutoOpBB extends LinearOpMode
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
 
-    private DriveBase driveBase;
+    private NewPIDDriveBase driveBase;
     private Lift lift;
 
     private DcMotor claw;
@@ -28,7 +28,7 @@ public class AutoOpBB extends LinearOpMode
     @Override
     public void runOpMode()
     {
-        driveBase = new DriveBase(hardwareMap);
+        driveBase = new NewPIDDriveBase(hardwareMap);
 
         driveBase.setImuStabililzed(true);
         driveBase.setHeadless(true);
