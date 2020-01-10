@@ -30,6 +30,7 @@
 package org.firstinspires.ftc.teamcode;
 
 
+import com.qualcomm.ftccommon.SoundPlayer;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -40,12 +41,22 @@ public class TeleOp extends OpMode
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
 
+    private int yar;
+    private int ahoy;
+    private int avastScurvy;
+    private int jank;
+
     private DriveOp2 driveOp;
     private NewPIDDriveBase driveBase;
     private Lift lift;
     private Sensors sensors;
+    private Intake intake;
 
     private DcMotor claw;
+
+    private boolean isX = false;
+
+    private boolean wasX = false;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -57,11 +68,21 @@ public class TeleOp extends OpMode
         driveBase = new NewPIDDriveBase(hardwareMap);
         lift = new Lift(hardwareMap);
         sensors = new Sensors(hardwareMap);
+        intake = new Intake(hardwareMap);
 
         claw = hardwareMap.get(DcMotor.class, "claw");
 
         driveBase.setImuStabililzed(true);
         driveBase.setHeadless(true);
+
+        yar = hardwareMap.appContext.getResources().getIdentifier("yar", "raw", hardwareMap.appContext.getPackageName());
+        SoundPlayer.getInstance().preload(hardwareMap.appContext, yar);
+        ahoy = hardwareMap.appContext.getResources().getIdentifier("ahoy", "raw", hardwareMap.appContext.getPackageName());
+        SoundPlayer.getInstance().preload(hardwareMap.appContext, ahoy);
+        avastScurvy = hardwareMap.appContext.getResources().getIdentifier("avast_scurvy", "raw", hardwareMap.appContext.getPackageName());
+        SoundPlayer.getInstance().preload(hardwareMap.appContext, avastScurvy);
+        jank = hardwareMap.appContext.getResources().getIdentifier("jank", "raw", hardwareMap.appContext.getPackageName());
+        SoundPlayer.getInstance().preload(hardwareMap.appContext, jank);
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
@@ -104,6 +125,28 @@ public class TeleOp extends OpMode
         lift.setPower(gamepad2.left_stick_y);
 
         claw.setPower(-gamepad2.right_stick_y);
+
+        intake.intake();
+
+        if (isX = gamepad1.x && !wasX)
+        {
+            switch ((int)(4 * Math.random()))
+            {
+                case 0:
+                    SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, yar);
+                    break;
+                case 1:
+                    SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, ahoy);
+                    break;
+                case 2:
+                    SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, avastScurvy);
+                    break;
+                case 3:
+                    SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, jank);
+            }
+        }
+
+        wasX = isX;
 
         telemetry.addData("Target Angle: ", driveOp.getAngle());
         telemetry.addData("Current Angle: ", driveBase.getHeading());
