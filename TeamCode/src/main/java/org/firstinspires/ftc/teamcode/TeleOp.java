@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.ftccommon.SoundPlayer;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -46,17 +47,17 @@ public class TeleOp extends OpMode
     private int avastScurvy;
     private int jank;
 
-    private DriveOp2 driveOp;
+    private DriveOp driveOp;
     private NewPIDDriveBase driveBase;
     private Lift lift;
     private Sensors sensors;
     private Intake intake;
 
+    private CRServo capper;
+
     private DcMotor claw;
 
-    private boolean isX = false;
-
-    private boolean wasX = false;
+    private boolean wasA;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -64,13 +65,15 @@ public class TeleOp extends OpMode
     @Override
     public void init()
     {
-        driveOp = new DriveOp2(gamepad1);
+        driveOp = new DriveOp(gamepad1);
         driveBase = new NewPIDDriveBase(hardwareMap);
         lift = new Lift(hardwareMap);
         sensors = new Sensors(hardwareMap);
         intake = new Intake(hardwareMap);
 
         claw = hardwareMap.get(DcMotor.class, "claw");
+
+        capper = hardwareMap.get(CRServo.class, "capper");
 
         driveBase.setImuStabililzed(true);
         driveBase.setHeadless(true);
@@ -118,35 +121,40 @@ public class TeleOp extends OpMode
         }
         else
         {
-            driveBase.drive(driveOp.getPower(), driveOp.getAngle(), 0);
-            driveBase.setStablilizedHeading(driveOp.setHeading());
+            driveBase.drive(driveOp.getPower(), driveOp.getAngle(), driveOp.getRot());
         }
 
         lift.setPower(gamepad2.left_stick_y);
 
         claw.setPower(-gamepad2.right_stick_y);
 
-        intake.intake();
-
-        if (isX = gamepad1.x && !wasX)
+        if (gamepad2.a)
         {
-            switch ((int)(4 * Math.random()))
-            {
-                case 0:
-                    SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, yar);
-                    break;
-                case 1:
-                    SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, ahoy);
-                    break;
-                case 2:
-                    SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, avastScurvy);
-                    break;
-                case 3:
-                    SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, jank);
-            }
+            intake.setPower(1);
         }
+        else if (wasA && !gamepad2.a)
+        {
+            intake.setPower(0);
+            playRandomSound();
+        }
+        else if (gamepad2.b)
+        {
+            intake.setPower(-1);
+        }
+        else
+        {
+            intake.setPower(0);
+        }
+        wasA = gamepad2.a;
 
-        wasX = isX;
+        if (gamepad2.right_bumper)
+        {
+            capper.setPower(0.7);
+        }
+        else if (gamepad2.left_bumper)
+        {
+            capper.setPower(-0.7);
+        }
 
         telemetry.addData("Target Angle: ", driveOp.getAngle());
         telemetry.addData("Current Angle: ", driveBase.getHeading());
@@ -166,6 +174,24 @@ public class TeleOp extends OpMode
     public void stop()
     {
 
+    }
+
+    private void playRandomSound()
+    {
+        switch ((int)(4 * Math.random()))
+        {
+            case 0:
+                SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, yar);
+                break;
+            case 1:
+                SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, ahoy);
+                break;
+            case 2:
+                SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, avastScurvy);
+                break;
+            case 3:
+                SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, jank);
+        }
     }
 
 }
