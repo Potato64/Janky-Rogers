@@ -156,8 +156,14 @@ public class TeleOp extends OpMode
             capper.setPower(-0.7);
         }
 
+        if (gamepad1.a)
+        {
+            DriveBase.correction = driveBase.getHeading();
+        }
+
         telemetry.addData("Target Angle: ", driveOp.getAngle());
         telemetry.addData("Current Angle: ", driveBase.getHeading());
+        telemetry.addData("Correction: ", DriveBase.correction);
 
         telemetry.addData("frontD: ", sensors.getFrontDistance());
         telemetry.addData("backD: ", sensors.getBackDistance());

@@ -47,6 +47,12 @@ public class AutoOpBL extends LinearOpMode
         waitForStart();
         runtime.reset();
 
+        lift.setPower(-0.3);
+        sleep(1500);
+        lift.setPower(0);
+
+        telemetry.addData("Raised Lift", "true");
+
         while (opModeIsActive() && sensors.getFrontDistance() > 7)
         {
             driveBase.drive(0.1 + (sensors.getFrontDistance() - 7) * 0.07, 0, 0);
@@ -59,38 +65,40 @@ public class AutoOpBL extends LinearOpMode
         getSkystone();
 
         placeStone();
-
-        double targetPos;
-
-        switch(skystonePos)
-        {
-            case 1:
-                targetPos = 16;
-                break;
-            case 2:
-                targetPos = 8;
-                break;
-            default:
-                targetPos = 3;
-        }
+//
+//        double targetPos;
+//
+//        switch(skystonePos)
+//        {
+//            case 1:
+//                targetPos = 16;
+//                break;
+//            case 2:
+//                targetPos = 8;
+//                break;
+//            default:
+//                targetPos = 3;
+//        }
 
 //        while (opModeIsActive() && sensors.getBackDistance() > 48)
 //        {
 //            driveBase.drive(-0.5, PI/2, 0);
 //        }
 
-        while (opModeIsActive() && sensors.getBackDistance() > targetPos + 1)
-        {
-            driveBase.drive(-(sensors.getBackDistance() - targetPos + 5) * 0.02, PI/2 + 0.1, 0);
-        }
-
-        driveBase.drive(0, 0, 0);
+//        while (opModeIsActive() && sensors.getBackDistance() > targetPos + 1)
+//        {
+//            driveBase.drive(-(sensors.getBackDistance() - targetPos + 5) * 0.02, PI/2 + 0.1, 0);
+//        }
+//
+//        driveBase.drive(0, 0, 0);
 
 //        getSkystone();
 
 //        placeStone();
 
-//        driveBase.drive(0.3, PI/2, 0);
+        driveBase.drive(0.3, PI/2, 0);
+
+        sleep(1000);
 
 //        while(opModeIsActive() && sensors.getBottomC() < 50);
     }
@@ -178,10 +186,6 @@ public class AutoOpBL extends LinearOpMode
         claw.setPower(1);
         sleep(1000);
         claw.setPower(0);
-
-        lift.setPower(0.3);
-        sleep(1500);
-        lift.setPower(0);
 
         claw.setPower(-0.5);
         sleep(1200);

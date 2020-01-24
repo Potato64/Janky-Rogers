@@ -17,6 +17,8 @@ import static java.lang.Math.sin;
 @Deprecated
 public class DriveBase
 {
+    public static double correction;
+
     private DcMotor frMotor;
     private DcMotor flMotor;
     private DcMotor brMotor;
@@ -69,7 +71,7 @@ public class DriveBase
         double currentAngle = getHeading();
         if (headless)
         {
-            direction -= currentAngle;
+            direction -= currentAngle + correction;
         }
         if (imuStabililzed)
         {
